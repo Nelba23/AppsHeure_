@@ -1,0 +1,48 @@
+# Suivi des Heures de Travail
+
+Application web pour gérer et suivre les heures de travail des employés.
+
+## Table des Matières
+
+1. [Présentation](#présentation)
+2. [Fonctionnalit](#fonctionnalités)
+3. [Utilisation](#utilisation)
+4. [Déploiement](#déploiement)
+5. [Contribution](#contribution)
+6. [Licence](#licence)
+
+## Présentation
+
+Cette application est conçue pour aider les entreprises à gérer efficacement les horaires de travail de leurs employés. Elle permet de suivre les heures d'arrivée, de début de pause, de fin de pause et de départ, facilitant ainsi la gestion du temps de travail et la planification des ressources humaines.
+
+## Fonctionnalités
+
+- **Enregistrement des heures** : Les employés peuvent enregistrer leurs heures d'arrivée, de début de pause, de fin de pause et de départ.
+- **Suivi en temps réel** : Les gestionnaires peuvent visualiser les heures enregistrées en temps réel pour chaque employé.
+- **Rapports et statistiques** : Génération de rapports détaillés pour analyser les tendances et optimiser la gestion du temps.
+- **Notifications** : Envoi automatique de notifications pour les retards ou les absences non justifiées.
+- **Sécurité** : Authentification sécurisée pour protéger les données sensibles.
+
+## Utilisation
+
+1. **Connexion** : Les employés se connectent avec leur identifiant et mot de passe fournis par l'administrateur.
+2. **Enregistrement des heures** : Utiliser l'interface utilisateur pour enregistrer les heures de travail.
+3. **Consultation des rapports** : Les gestionnaires peuvent accéder aux rapports pour analyser les données.
+
+
+## Déploiement
+
+1. **Prérequis** : Node.js, MongoDB.
+2. **Installation** : Cloner le dépôt, installer les dépendances avec `npm install`, puis lancer l'application avec `npm start`.
+3. **Configuration** : Configurer les variables d'environnement pour la base de données et le serveur.
+
+## Contribution
+
+Les contributions sont bienvenues ! Pour contribuer, veuillez suivre ces étapes :
+- Forker le dépôt.
+- Créer une branche pour vos modifications.
+- Soumettre une pull request avec une description claire des changements.
+
+## Licence
+
+Cette application est sous licence [MIT](https://opensource.org/licenses/MIT). Vous êtes libres de l'utiliser, de la modifier et de la redistribuer selon les termes de la licence.

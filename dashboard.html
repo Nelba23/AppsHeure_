@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord - Horaires</title>
+    <style>
+@media screen {
+    table {
+        font-size: 14px;
+    }
+    tr {
+        height: 40px;
+    }
+    th, td {
+        padding: 10px;
+    }
+}
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th, td {
+            padding: 10px;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .refresh-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .refresh-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Tableau de bord des Horaires</h1>
+<!-- Tableau pour afficher les données -->
+<table id="dataTable">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Nom collaborateur</th>
+            <th>Heure d'arrivée</th>
+            <th>Heure de début de pause</th>
+            <th>Heure de fin de pause</th>
+            <th>Heure de départ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- injection des données de manière dynamique -->
+    </tbody>
+</table>
+
+<div class="button-container">
+    <button class="refresh-button" onclick="loadData()">Actualiser les données</button>
+</div>
+
+
+<script>
+// Fonction pour récupérer et afficher les données depuis Google Sheets
+function loadData() {
+    google.script.run.withSuccessHandler(displayData).getData();  // Appel de la fonction Apps Script pour récupérer les données
+}
+// Fonction pour afficher les données dans le tableau
+function displayData(data) {
+    const tableBody = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = '';  
+    // Vide le tableau avant d'ajouter les nouvelles données
+
+    // Remplir le tableau avec les données
+    data.forEach(function(row, index) {
+        const tr = document.createElement('tr');
+        row.forEach(function(cell) {
+            const td = document.createElement('td');
+            td.textContent = cell;
+            tr.appendChild(td);
+        });
+        tableBody.appendChild(tr);
+    });
+}
+// Appel initial pour charger les données dès que la page est chargée
+window.onload = loadData;
+</script>
+
+</body>
+</html>

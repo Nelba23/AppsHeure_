@@ -1,0 +1,256 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+:root {
+    --accent-color: #1B5A69;
+    --background-color: #eeeeee;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: #333;
+}
+/* Header */
+header {
+    background-color: #2697B3;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+nav{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+}
+nav a{
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0 10px;
+}
+nav a img{
+    width: 80px;
+    height: 80px;
+    margin-right: 10px;
+}
+/* Fin header */
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin:0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+/* Fin */
+
+#accueil {
+    background-image: linear-gradient(to bottom, #f7f7f7, #e5e5e5);
+    padding: 50px;
+    text-align: center;
+}
+#accueil p{
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+#accueil button {
+    background-color: #2697B3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 2px;
+    font-size: 1rem;
+}
+/* Connexion */
+.hidden {
+    display: none;
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #fff;
+    color: #333;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 90vw;
+    max-width: 1000px;
+    margin: 10vh auto;
+    margin-top: 85px;
+}
+
+.picture-panel {
+    background: url("/Test_AppsHeure/testAcceuil/images/connexion_img.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login {
+    padding: 10vh 5vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    color: #333;
+}
+
+.login h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    color: #333;
+}
+
+.login a {
+    text-decoration: none;
+    color: var(--accent-color);
+    margin-top: 20px;
+    font-size: 16px;
+    transition: 0.5s;
+}
+
+.login-btn {
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+    background: var(--accent-color);
+    color: #fff;
+    padding: 15px;
+    font-family: inherit;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: 0.5s;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.login-btn:focus {
+    outline: none;
+}
+
+.text {
+    margin-top: 30px;
+    font-size: 16px;
+    color: #333;
+    text-align: center;
+}
+
+.login-btn:active {
+    transform: scale(0.98);
+}
+
+.form-control {
+    position: relative;
+    margin: 20px 0 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form-control input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #999;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #000000;
+    transition: 0.5s;
+}
+
+.form-control input:focus,
+.form-control input:valid {
+    outline: none;
+    border-bottom-color: var(--accent-color);
+}
+
+.form-control label {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    font-size: 18px;
+    color: #999;
+    pointer-events: none;
+    transition: 0.5s;
+}
+
+.form-control label span {
+    display: inline-block;
+    font-size: 18px;
+    min-width: 5px;
+    transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-control input:focus+label span,
+.form-control input:valid+label span {
+    color: var(--accent-color);
+    transform: translateY(-30px);
+}
+
+login-btn:hover{
+    background-color: #4aadc6;
+    transition: 0.5s;
+}
+
+@media screen and (max-width: 750px) {
+    .nav{
+        display: none;
+    }
+    .connexion{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        background-color: #f0f0f0;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .login {
+        order: 2;
+        padding: 10px 20px 20px;
+    }
+}
+
+.connexion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Fin connexion */

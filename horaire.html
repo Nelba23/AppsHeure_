@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>horaire</title>
+    <link rel="stylesheet" href="/Test_AppsHeure/testAcceuil/assets/css/horaire.css">
+</head>
+<body>
+    <div class="container">
+            <!-- Header -->
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="/Test_AppsHeure/testAcceuil/acceuil.html">Accueil</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <!-- Fin header -->
+        <div class="time-tracker">
+            <h1>⏰ Suivi du temps</h1>
+            <select id="sheetSelect">
+                <option value="0">Choisir un collaborateur</option>
+            </select>
+            <span id="heureActuelle"></span>
+            <div class="time-displays">
+                <div class="time-display">
+                    <span class="label">Heure d'arrivée:</span>
+                    <span id="arrivalTime" class="time">--:--</span>
+                </div>
+                <div class="time-display">
+                    <span class="label">Heure de début de pause:</span>
+                    <span id="breakStartTime" class="time">--:--</span>
+                </div>
+                <div class="time-display">
+                    <span class="label">Heure de fin de pause:</span>
+                    <span id="breakEndTime" class="time">--:--</span>
+                </div>
+                <div class="time-display">
+                    <span class="label">Heure de départ:</span>
+                    <span id="departureTime" class="time">--:--</span>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button id="arrivalBtn" class="btn btn-green">Heure d'arrivée</button>
+                <button id="breakStartBtn" class="btn btn-orange" disabled>Heure début de pause</button>
+                <button id="breakEndBtn" class="btn btn-orange" disabled>Heure de fin de pause</button>
+                <button id="departureBtn" class="btn btn-red" disabled>Heure de départ</button>
+                <button id="saveBtn" class="btn btn-blue" disabled>Enregistrer</button>
+            </div>
+            <div id="notification"></div>
+        </div>
+    </div>
+    <script src="/Test_AppsHeure/testAcceuil/assets/js/utils.js"></script>
+    <script src="sheets.js"></script>
+    <script src="/Test_AppsHeure/testAcceuil/assets/js/app.js"></script>
+    <script src="/Test_AppsHeure/testAcceuil/assets/js/hora.js"></script>
+</body>
+</html>
