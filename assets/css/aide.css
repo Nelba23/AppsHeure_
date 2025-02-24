@@ -43,12 +43,22 @@ nav ul .li{
 /* Contact */
 p {
     margin-left: 25px;
+    text-align: center;
 }
 
 #contact {
     background-color: #f0f0f0;
     padding: 20px;
     text-align: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    height: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    align-items: center;
 }
 
 #contact form {
@@ -68,11 +78,16 @@ p {
     border: 1px solid #ccc;
     border-radius: 2px;
     outline: none;
+    transition: 0.5s;
 }
-
+#contact textarea{
+    height: 100px;
+}
 #contact h2 {
     text-align: center;
     margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #2697B3;
 }
 
 #contact a {

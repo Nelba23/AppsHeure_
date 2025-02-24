@@ -1,61 +1,141 @@
+<!-- Description: Page pour le suivi du temps -->
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>horaire</title>
-    <link rel="stylesheet" href="/Test_AppsHeure/testAcceuil/assets/css/horaire.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
+    <title>Pointage</title>
+    <link rel="stylesheet" href="/assets/css/horaire.css" />
+    <link rel="icon" href="/images/logo2.jpg" type="image/jpeg" />
+  </head>
+  <body>
     <div class="container">
-            <!-- Header -->
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="/Test_AppsHeure/testAcceuil/acceuil.html">Accueil</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <!-- Fin header -->
-        <div class="time-tracker">
-            <h1>⏰ Suivi du temps</h1>
-            <select id="sheetSelect">
-                <option value="0">Choisir un collaborateur</option>
-            </select>
-            <span id="heureActuelle"></span>
-            <div class="time-displays">
-                <div class="time-display">
-                    <span class="label">Heure d'arrivée:</span>
-                    <span id="arrivalTime" class="time">--:--</span>
-                </div>
-                <div class="time-display">
-                    <span class="label">Heure de début de pause:</span>
-                    <span id="breakStartTime" class="time">--:--</span>
-                </div>
-                <div class="time-display">
-                    <span class="label">Heure de fin de pause:</span>
-                    <span id="breakEndTime" class="time">--:--</span>
-                </div>
-                <div class="time-display">
-                    <span class="label">Heure de départ:</span>
-                    <span id="departureTime" class="time">--:--</span>
-                </div>
-            </div>
+      <header>
+        <nav>
+          <ul>
+            <li><a href="/acceuil.html">Accueil</a></li>
+            <li><a href="/aide.html">Contact</a></li>
+          </ul>
+          <span id="username-display"></span>
+        </nav>
+      </header>
 
-            <div class="buttons">
-                <button id="arrivalBtn" class="btn btn-green">Heure d'arrivée</button>
-                <button id="breakStartBtn" class="btn btn-orange" disabled>Heure début de pause</button>
-                <button id="breakEndBtn" class="btn btn-orange" disabled>Heure de fin de pause</button>
-                <button id="departureBtn" class="btn btn-red" disabled>Heure de départ</button>
-                <button id="saveBtn" class="btn btn-blue" disabled>Enregistrer</button>
-            </div>
-            <div id="notification"></div>
+      <main class="time-tracker">
+        <h1>⏰Horaire</h1>
+        <p translate="yes">Veuillez pointer en remplissant tous les champs</p>
+        <div class="time-info">
+          <span id="dateActuelle"></span>
+          <br />
+          <span id="heureActuelle"></span>
         </div>
+
+        <table class="time-displays">
+          <caption>
+            Suivi des heures de travail
+          </caption>
+          <thead>
+            <tr>
+              <th>Pointé</th>
+              <th>Heures</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label">Heure d'arrivée:</td>
+              <td id="arrivalTime" class="time">
+                <input type="time" id="arrivalTimeInput" required />
+              </td>
+            </tr>
+            <tr>
+              <td class="label">Heure de début de travail:</td>
+              <td id="startWorkTime" class="time">--:--</td>
+            </tr>
+            <tr>
+              <td class="label">Heure de début de pause:</td>
+              <td id="breakStartTime" class="time">--:--</td>
+            </tr>
+            <tr>
+              <td class="label">Heure de fin de pause:</td>
+              <td id="breakEndTime" class="time">--:--</td>
+            </tr>
+            <tr>
+              <td class="label">Heure de départ:</td>
+              <td id="departureTime" class="time">--:--</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="buttons">
+          <button
+            id="arrivalBtn"
+            class="btn btn-green"
+            aria-label="Enregistrer l'heure d'arrivée"
+          >
+            Heure d'arrivée
+          </button>
+          <button
+            id="startWorkBtn"
+            class="btn btn-green"
+            disabled
+            aria-label="Enregistrer l'heure de début de travail"
+          >
+            Début travail
+          </button>
+          <button
+            id="breakStartBtn"
+            class="btn btn-orange"
+            disabled
+            aria-label="Enregistrer l'heure de début de pause"
+          >
+            Début pause
+          </button>
+          <button
+            id="breakEndBtn"
+            class="btn btn-orange"
+            disabled
+            aria-label="Enregistrer l'heure de fin de pause"
+          >
+            Fin pause
+          </button>
+          <button
+            id="departureBtn"
+            class="btn btn-red"
+            disabled
+            aria-label="Enregistrer l'heure de départ"
+          >
+            Départ
+          </button>
+          <button
+            id="saveBtn"
+            class="btn btn-blue"
+            disabled
+            aria-label="Enregistrer toutes les heures"
+          >
+            Enregistrer
+          </button>
+        </div>
+
+        <div id="notification" class="notification"></div>
+      </main>
     </div>
-    <script src="/Test_AppsHeure/testAcceuil/assets/js/utils.js"></script>
-    <script src="sheets.js"></script>
-    <script src="/Test_AppsHeure/testAcceuil/assets/js/app.js"></script>
-    <script src="/Test_AppsHeure/testAcceuil/assets/js/hora.js"></script>
-</body>
+
+    <script>
+      // Vérification de l'authentification
+      const token = sessionStorage.getItem("token");
+      const username = sessionStorage.getItem("username");
+
+      if (!token || !username) {
+        window.location.replace("./acceuil.html");
+      }
+
+      // Afficher le nom d'utilisateur
+      document.getElementById("username-display").textContent = username;
+    </script>
+
+    <!-- Script pour l'authentification -->
+    <script src="/assets/js/auth.js"></script>
+    <!-- Script pour gérer le suivi du temps -->
+    <script src="/assets/js/hora.js"></script>
+  </body>
 </html>

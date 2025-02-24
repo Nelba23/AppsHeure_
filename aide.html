@@ -1,30 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aide</title>
-    <link rel="stylesheet" href="/Test_AppsHeure/testAcceuil/assets/css/aide.css">
-</head>
-<body>
+    <link rel="icon" href="/images/logo2.jpg" type="image/jpeg" />
+    <link rel="stylesheet" href="/assets/css/aide.css" />
+  </head>
+  <body>
     <header>
-        <nav>
-            <a href="#acceuil"><img src="/Test_AppsHeure/testAcceuil/images/logo2.jpg" height="100px" alt=""></a>
-            <ul>
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#connexion">Connexion</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+      <nav>
+        <a href="/acceuil.html">
+          <img src="/images/logo2.jpg" height="100" alt="Logo de F2E-Heure" />
+        </a>
+        <ul>
+          <li><a href="/acceuil.html">Accueil</a></li>
+        </ul>
+      </nav>
     </header>
-    <section id="contact"><br>
-            <h2>Contactez-nous</h2>
-        <form>
-                <input type="text" id="nom" placeholder="Nom">
-                <input type="email" id="email" placeholder="adresse@example.com">
-                <textarea id="message" placeholder="Message"></textarea>
-                <a href="mailto:" id="envoyer">Envoyer</a>
-        </form>
-    </section>
-</body>
+
+    <main id="contact">
+      <h2>Contactez-nous</h2>
+      <form
+        class="formulaire"
+        action="https://formspree.io/f/xqaewljn"
+        method="POST"
+        id="contactForm"
+      >
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <div class="form-control">
+          <input
+            type="text"
+            name="nom"
+            id="nom"
+            placeholder="Nom"
+            required
+            aria-label="Nom"
+          />
+        </div>
+        <div class="form-control">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="adresse@example.com"
+            required
+            aria-label="Email"
+          />
+        </div>
+        <div class="form-control">
+          <textarea
+            name="message"
+            id="message"
+            placeholder="Message"
+            required
+            aria-label="Message"
+          ></textarea>
+        </div>
+        <button type="submit" id="envoyer">Envoyer</button>
+        <div id="formMessage" class="form-message" style="display: none"></div>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 F2E-Heure. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          // Validation basique
+          const nom = document.getElementById("nom").value;
+          const email = document.getElementById("email").value;
+          const message = document.getElementById("message").value;
+
+          if (!nom || !email || !message) {
+            document.getElementById("formMessage").style.display = "block";
+            document.getElementById("formMessage").innerHTML =
+              "Veuillez remplir tous les champs";
+            return;
+          }
+
+          // Soumission du formulaire
+          this.submit();
+        });
+    </script>
+  </body>
 </html>

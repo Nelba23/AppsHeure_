@@ -1,0 +1,228 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 1rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: #3498db;
+    font-weight: 500;
+}
+
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-container,
+.date-filters {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #3498db;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+.export-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Styles pour le tableau */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+}
+
+/* En-tête du tableau */
+thead tr {
+    background-color: #2697b3;
+    color: white;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+}
+
+/* Cellules du tableau */
+th, td {
+    padding: 15px;
+    border-bottom: 1px solid #dddddd;
+}
+
+/* Lignes du corps du tableau */
+tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Effet alterné sur les lignes */
+tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Effet hover sur les lignes */
+tbody tr:hover {
+    background-color: #f5f5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Style pour les valeurs vides ou "--:--" */
+td:empty::before,
+td:contains("--:--") {
+    content: "--:--";
+    color: #999;
+    font-style: italic;
+}
+
+/* Durée totale (dernière colonne) */
+td:last-child {
+    font-weight: 600;
+    color: #2697b3;
+}
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    th, td {
+        padding: 12px;
+        font-size: 0.85em;
+    }
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+table {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Container du tableau avec ombre portée */
+#resultats {
+    margin: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 768px) {
+    .filters {
+        gap: 1rem;
+    }
+
+    .search-container,
+    .date-filters {
+        flex-direction: column;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.initial-message {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.loading {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.error {
+    color: #dc3545;
+    padding: 20px;
+    text-align: center;
+}
+
+.no-results {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}

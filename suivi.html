@@ -1,161 +1,409 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Visualisation des Heures Enregistrées</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f0f0f0;
-        color: #333;
-    }
+    <link rel="icon" href="/images/logo2.jpg" type="image/jpeg" />
+    <link rel="stylesheet" href="/assets/css/suivi.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <ul>
+            <li><a href="/acceuil.html">Accueil</a></li>
+            <li><a href="/aide.html">Contact</a></li>
+          </ul>
+          <span id="username-display"></span>
+        </nav>
+      </header>
 
-    h1 {
-        text-align: center;
-        margin-bottom: 2em;
-    }
+      <main>
+        <h1>📊 Visualisation des Heures Enregistrées</h1>
 
-    #resultats {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 0 1em;
-    }
+        <div class="filters">
+          <div class="search-container">
+            <input
+              type="text"
+              id="nomEmploye"
+              placeholder="Rechercher un collaborateur..."
+              aria-label="Nom du collaborateur"
+            />
+            <button
+              id="rechercher"
+              class="btn-primary"
+              aria-label="Rechercher les heures enregistrées"
+            >
+              🔍 Rechercher
+            </button>
+          </div>
+          <div class="date-filters">
+            <input type="date" id="dateDebut" aria-label="Date de début" />
+            <input type="date" id="dateFin" aria-label="Date de fin" />
+            <button id="filtrerDates" class="btn-secondary">
+              Filtrer par dates
+            </button>
+          </div>
+        </div>
 
-    input {
-        outline: none;
-    }
+        <div id="stats" class="stats-container hidden">
+          <div class="stat-card">
+            <h3>Heures Totales</h3>
+            <p id="heuresTotal">0h00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Moyenne par Jour</h3>
+            <p id="moyenneHeures">0h00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Jours Travaillés</h3>
+            <p id="joursTotal">0</p>
+          </div>
+        </div>
 
-    input[type="text"] {
-        padding: 0.5em;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 1em;
-        outline: none;
-    }
+        <div id="resultats" role="alert" aria-live="polite"></div>
 
-    input[type="text"]::-webkit-inner-spin-button,
-    input[type="text"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+        <div class="export-container">
+          <button id="exportCsv" class="btn-secondary" disabled>
+            📥 Exporter en CSV
+          </button>
+        </div>
+      </main>
+    </div>
 
-    button {
-        padding: 0.5em 1em;
-        border: none;
-        border-radius: 5px;
-        background-color: #333;
-        color: white;
-        cursor: pointer;
-        font-size: 1em;
-        margin-top: 1em;
-    }
+    <script>
+      //URL de déploiement
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxKRYzZuR2r8kefjd8Yt4gmb4tcxxMTCULPpVB3S4cQ-ogvh8f4HjxGtC2qMIbtFSjvdQ/exec";
+      let donneesCourantes = [];
 
-    button:hover {
-        background-color: #555;
-    }
+    // Formatage de la date
+    function formatDate(dateStr) {
+      console.log("Date reçue brute:", dateStr); // Debug log
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 2em;
-    }
+      if (!dateStr || dateStr === "" || dateStr.includes("undefined")) {
+        return "--/--/----";
+      }
 
-    th,
-    td {
-        border: 1px solid #ddd;
-        padding: 0.5em;
-        text-align: left;
-    }
-
-    th {
-        background-color: #333;
-        color: white;
-    }
-
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-</style>
-<body>
-    <h1>Visualisation des Heures Enregistrées</h1>
-    <input type="text" id="employeID" placeholder="ID de l'employé">
-    <button id="rechercher">Rechercher</button>
-    <div id="resultats"></div>
-<script>
-    // Simulation des données
-    const heuresEnregistrees = [
-        { employeID: 1, date: '2023-01-01', heureDebut: '08:00', heureFin: '17:00' },
-        { employeID: 1, date: '2023-01-02', heureDebut: '08:00', heureFin: '17:00' },
-        { employeID: 2, date: '2023-01-01', heureDebut: '09:00', heureFin: '18:00' },
-        { employeID: 2, date: '2023-01-02', heureDebut: '09:00', heureFin: '18:00' },
-    ];
-
-    document.getElementById('rechercher').addEventListener('click', function () {
-        const employeID = document.getElementById('employeID').value;
-        const resultatsDiv = document.getElementById('resultats');
-
-        // Récupération des heures pour l'employé sélectionné
-        const heuresEmploye = heuresEnregistrees.filter(heure => heure.employeID == employeID);
-
-        if (heuresEmploye.length > 0) {
-            // Création du tableau
-            const tableau = document.createElement('table');
-            const thead = document.createElement('thead');
-            const trHeader = document.createElement('tr');
-
-            const thDate = document.createElement('th');
-            thDate.textContent = 'Date';
-            trHeader.appendChild(thDate);
-
-            const thHeureDebut = document.createElement('th');
-            thHeureDebut.textContent = 'Heure de Début';
-            trHeader.appendChild(thHeureDebut);
-
-            const thHeureFin = document.createElement('th');
-            thHeureFin.textContent = 'Heure de Fin';
-            trHeader.appendChild(thHeureFin);
-
-            thead.appendChild(trHeader);
-            tableau.appendChild(thead);
-
-            const tbody = document.createElement('tbody');
-
-            heuresEmploye.forEach(heure => {
-                const tr = document.createElement('tr');
-
-                const tdDate = document.createElement('td');
-                tdDate.textContent = heure.date;
-                tr.appendChild(tdDate);
-
-                const tdHeureDebut = document.createElement('td');
-                tdHeureDebut.textContent = heure.heureDebut;
-                tr.appendChild(tdHeureDebut);
-
-                const tdHeureFin = document.createElement('td');
-                tdHeureFin.textContent = heure.heureFin;
-                tr.appendChild(tdHeureFin);
-
-                tbody.appendChild(tr);
-            });
-
-            tableau.appendChild(tbody);
-
-            // Nettoyage du contenu existant et ajout du tableau
-            resultatsDiv.innerHTML = '';
-            resultatsDiv.appendChild(tableau);
-        } else {
-            resultatsDiv.innerHTML = 'Aucune heure enregistrée pour cet employé.';
+      try {
+        // Si la date est au format objet Date de Google Apps Script
+        if (typeof dateStr === "object" && dateStr.getDate) {
+        const day = String(dateStr.getDate()).padStart(2, "0");
+        const month = String(dateStr.getMonth() + 1).padStart(2, "0");
+        const year = dateStr.getFullYear();
+        return `${day}/${month}/${year}`;
         }
-    });
 
-</script>
-</body>
+        // Si la date est une chaîne au format JJ/MM/AAAA ou YYYY-MM-DD
+        const dateParts = dateStr.includes("/")
+        ? dateStr.split("/")
+        : dateStr.split("-");
+
+        if (dateParts.length !== 3) {
+        console.error("Format de date invalide:", dateStr);
+        return "--/--/----";
+        }
+
+        let day, month, year;
+
+        if (dateStr.includes("-")) {
+        // Format YYYY-MM-DD
+        [year, month, day] = dateParts;
+        } else {
+        // Format JJ/MM/AAAA
+        [day, month, year] = dateParts;
+        }
+
+        // Vérification des composants
+        if (!year || !month || !day) {
+        return "--/--/----";
+        }
+
+        // Formatage avec padding si nécessaire
+        day = String(day).padStart(2, "0");
+        month = String(month).padStart(2, "0");
+        year = String(year);
+
+        return `${day}/${month}/${year}`;
+      } catch (error) {
+        console.error(
+        "Erreur de formatage de date:",
+        error,
+        "pour la date:",
+        dateStr
+        );
+        return "--/--/----";
+      }
+    }
+
+      // Calcul de la durée totale avec pause déduite
+      function calculerDureeTotale(debut, fin, debutPause, finPause) {
+        try {
+          if (!debut || !fin || debut === "--:--" || fin === "--:--")
+            return "--:--";
+
+          let dureeTotal = 0;
+
+          if (debutPause && finPause) {
+            const [h1, m1] = debut.split(":").map(Number);
+            const [h2, m2] = debutPause.split(":").map(Number);
+            dureeTotal += h2 * 60 + m2 - (h1 * 60 + m1);
+
+            const [h3, m3] = finPause.split(":").map(Number);
+            const [h4, m4] = fin.split(":").map(Number);
+            dureeTotal += h4 * 60 + m4 - (h3 * 60 + m3);
+          } else if (debut && fin && debut !== "--:--" && fin !== "--:--") {
+            const [h1, m1] = debut.split(":").map(Number);
+            const [h2, m2] = fin.split(":").map(Number);
+            dureeTotal = h2 * 60 + m2 - (h1 * 60 + m1);
+          }
+
+          return `${Math.floor(dureeTotal / 60)}h${(dureeTotal % 60)
+            .toString()
+            .padStart(2, "0")}`;
+        } catch (error) {
+          console.error("Erreur dans le calcul de la durée:", error);
+          return "--:--";
+        }
+      }
+
+      // Modifier la fonction fetchData
+      async function fetchData(nom = "", dateDebut = "", dateFin = "") {
+        try {
+          const resultatsDiv = document.getElementById("resultats");
+
+          // Afficher un message de chargement
+          resultatsDiv.innerHTML =
+            '<p class="loading">Chargement en cours...</p>';
+
+          let url = API_URL;
+          const params = new URLSearchParams();
+
+          // Ajouter les paramètres seulement s'ils sont présents
+          if (nom) params.append("nom", nom);
+          if (dateDebut) params.append("dateDebut", dateDebut);
+          if (dateFin) params.append("dateFin", dateFin);
+
+          // Si aucun paramètre n'est fourni, afficher le message
+          if (!nom && !dateDebut && !dateFin) {
+            resultatsDiv.innerHTML =
+              '<p class="initial-message">Veuillez saisir au moins un critère de recherche.</p>';
+            document.getElementById("stats").classList.add("hidden");
+            document.getElementById("exportCsv").disabled = true;
+            return;
+          }
+
+          url += `?${params.toString()}`;
+
+          const response = await fetch(url);
+          const data = await response.json();
+
+          if (data.status === "success") {
+            donneesCourantes = data.data;
+            if (donneesCourantes.length === 0) {
+              resultatsDiv.innerHTML =
+                '<p class="no-results">Aucun résultat trouvé pour ces critères.</p>';
+              document.getElementById("stats").classList.add("hidden");
+              document.getElementById("exportCsv").disabled = true;
+            } else {
+              afficherResultats(donneesCourantes);
+              updateStats(donneesCourantes);
+            }
+          } else {
+            throw new Error(
+              data.message || "Erreur lors de la récupération des données"
+            );
+          }
+        } catch (error) {
+          console.error("Erreur:", error);
+          document.getElementById(
+            "resultats"
+          ).innerHTML = `<p class="error">Erreur: ${
+            error.message || "Une erreur est survenue"
+          }</p>`;
+          document.getElementById("stats").classList.add("hidden");
+          document.getElementById("exportCsv").disabled = true;
+        }
+      }
+
+      // Fonction d'affichage des résultats
+      function afficherResultats(donnees) {
+        const container = document.getElementById("resultats");
+        if (donnees.length === 0) {
+          container.innerHTML =
+            '<p class="no-results">Aucun résultat trouvé</p>';
+          return;
+        }
+
+        const html = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Nom</th>
+                    <th>Heure d'arrivée</th>
+                    <th>Début Pause</th>
+                    <th>Fin Pause</th>
+                    <th>Départ</th>
+                    <th>Durée Totale</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${donnees
+                  .map(
+                    (heure) => `
+                    <tr>
+                        <td>${formatDate(heure.date)}</td>
+                        <td>${heure.nom}</td>
+                        <td>${heure.heureDebut || "--:--"}</td>
+                        <td>${heure.heureDebutpause || "--:--"}</td>
+                        <td>${heure.heureFinpause || "--:--"}</td>
+                        <td>${heure.heureDepart || "--:--"}</td>
+                        <td>${calculerDureeTotale(
+                          heure.heureDebut,
+                          heure.heureDepart,
+                          heure.heureDebutpause,
+                          heure.heureFinpause
+                        )}</td>
+                    </tr>
+                `
+                  )
+                  .join("")}
+            </tbody>
+        </table>
+    `;
+        container.innerHTML = html;
+      }
+
+      // Mise à jour des statistiques
+      function updateStats(heuresEmploye) {
+        const elements = {
+          heuresTotal: document.getElementById("heuresTotal"),
+          moyenneHeures: document.getElementById("moyenneHeures"),
+          joursTotal: document.getElementById("joursTotal"),
+        };
+        const stats = {
+          totalMinutes: 0,
+          joursTotal: heuresEmploye.length,
+        };
+
+        heuresEmploye.forEach((heure) => {
+          const duree = calculerDureeTotale(
+            heure.heureDebut,
+            heure.heureDepart,
+            heure.heureDebutpause,
+            heure.heureFinpause // Correction de "here" en "heure"
+          );
+          if (duree !== "--:--") {
+            // Ajout d'une vérification pour éviter NaN
+            const [h, m] = duree.split("h");
+            stats.totalMinutes += parseInt(h) * 60 + parseInt(m);
+          }
+        });
+
+        const moyenneMinutes =
+          stats.joursTotal > 0 ? stats.totalMinutes / stats.joursTotal : 0;
+
+        elements.heuresTotal.textContent = `${Math.floor(
+          stats.totalMinutes / 60
+        )}h${(stats.totalMinutes % 60).toString().padStart(2, "0")}`;
+        elements.moyenneHeures.textContent = `${Math.floor(
+          moyenneMinutes / 60
+        )}h${Math.round(moyenneMinutes % 60)
+          .toString()
+          .padStart(2, "0")}`;
+        elements.joursTotal.textContent = stats.joursTotal;
+
+        document.getElementById("stats").classList.remove("hidden");
+        document.getElementById("exportCsv").disabled = false;
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      // Event Listeners
+      document.addEventListener("DOMContentLoaded", () => {
+        // Initialiser l'interface sans données
+        const container = document.getElementById("resultats");
+        container.innerHTML =
+          '<p class="initial-message">Veuillez utiliser les filtres ci-dessus pour rechercher des données.</p>';
+
+        // Masquer les statistiques au démarrage
+        document.getElementById("stats").classList.add("hidden");
+        document.getElementById("exportCsv").disabled = true;
+      });
+
+      // Modifier l'écouteur d'événement du bouton rechercher
+      document.getElementById("rechercher").addEventListener("click", (e) => {
+        e.preventDefault();
+        const nom = document.getElementById("nomEmploye").value.trim();
+        const dateDebut = document.getElementById("dateDebut").value;
+        const dateFin = document.getElementById("dateFin").value;
+
+        fetchData(nom, dateDebut, dateFin);
+      });
+
+      document.getElementById("filtrerDates").addEventListener("click", () => {
+        const dateDebut = document.getElementById("dateDebut").value;
+        const dateFin = document.getElementById("dateFin").value;
+        if (dateDebut && dateFin) {
+          // Ajouter une validation
+          if (new Date(dateDebut) > new Date(dateFin)) {
+            alert("La date de début doit être antérieure à la date de fin");
+            return;
+          }
+          fetchData("", dateDebut, dateFin);
+        }
+      });
+
+      // Export CSV
+      document
+        .getElementById("exportCsv")
+        .addEventListener("click", function () {
+          if (!donneesCourantes.length) return;
+
+          const csvContent = [
+            [
+              "Nom",
+              "Date",
+              "Début",
+              "Début Pause",
+              "Fin Pause",
+              "Départ",
+              "Durée Totale",
+            ],
+            ...donneesCourantes.map((heure) => [
+              heure.nom,
+              formatDate(heure.date),
+              heure.heureDebut,
+              heure.heureDebutpause,
+              heure.heureFinpause,
+              heure.heureDepart,
+              calculerDureeTotale(
+                heure.heureDebut,
+                heure.heureDepart,
+                heure.heureDebutpause,
+                heure.heureFinpause
+              ),
+            ]),
+          ]
+            .map((row) => row.join(";"))
+            .join("\n");
+
+          const blob = new Blob([csvContent], {
+            type: "text/csv;charset=utf-8;",
+          });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = `heures_${
+            new Date().toISOString().split("T")[0]
+          }.csv`;
+          link.click();
+        });
+    </script>
+  </body>
 </html>

@@ -3,6 +3,8 @@
 :root {
     --accent-color: #1B5A69;
     --background-color: #eeeeee;
+    --header-height: 70px;
+    --header-background: #2697B3;
 }
 
 body {
@@ -12,11 +14,19 @@ body {
     background-color: var(--background-color);
     color: #333;
 }
+admin-button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: -55px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: 'Montserrat', sans-serif;
+}
 /* Header */
 header {
-    background-color: #2697B3;
+    background-color: var(--header-background);
     color: white;
-    padding: 20px;
     text-align: center;
     position: fixed;
     width: 100%;
@@ -24,23 +34,131 @@ header {
     top: 0;
     left: 0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5%;
+    height: var(--header-height);
 }
 nav{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    height: 100%;
+    margin: 0;
+}
+nav ul li{
+    list-style: none;
+    display: inline;
+    margin: 0 20px;
 }
 nav a{
     color: white;
     text-decoration: none;
     font-size: 1.2rem;
-    margin: 0 10px;
+    margin: 0 20px;
+    transition: 0.5s;
+    position: relative;
 }
-nav a img{
-    width: 80px;
-    height: 80px;
-    margin-right: 10px;
+nav a:hover {
+    color: #e0e0e0;
+}
+nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: white;
+    bottom: -5px;
+    left: 0;
+    transition: width 0.3s;
+}
+nav a:hover::after {
+    width: 100%;
+}
+#image-logo{
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.admin-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: 20px;
+    position: relative;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+.admin-button::after {
+    content: "Admin";
+    position: absolute;
+    background-color: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-left: 50px;
+    display: none;
+}
+.admin-button:hover::after {
+    display: block;
+}
+@media screen and (max-width: 750px) {
+    .nav{
+        display: none;
+    }
+    .connexion{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        background-color: #f0f0f0;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .login {
+        order: 2;
+        padding: 10px 20px 20px;
+    }
+    .container {
+        grid-template-columns: 1fr;
+        width: 95%;
+        margin: 5vh auto;
+    }
+
+    .picture-panel {
+        display: none;
+    }
+
+    .admin-button {
+        margin-left: auto;
+        margin-right: 20px;
+    }
+
+    nav {
+        display: none;
+    }
+
+    #image-logo {
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+    }
+}
+
+.admin-button:hover {
+    background-color: #e0e0e0;
+}
+
+.admin-button i {
+    font-size: 20px;
 }
 /* Fin header */
 nav ul {
@@ -49,10 +167,6 @@ nav ul {
     margin:0;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
 /* Fin */
 
 #accueil {
@@ -93,13 +207,16 @@ nav ul li {
     border-radius: 10px;
     overflow: hidden;
     width: 90vw;
-    max-width: 1000px;
+
+    max-height: none;
+    min-height: 400px;
+    max-width: 700px;
     margin: 10vh auto;
-    margin-top: 85px;
+    margin-top: 100px;
 }
 
 .picture-panel {
-    background: url("/Test_AppsHeure/testAcceuil/images/connexion_img.jpg");
+    background: url("/images/connexion_img.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -117,6 +234,8 @@ nav ul li {
     align-items: center;
     background: #fff;
     color: #333;
+    transition: 0.5s;
+    margin-top: -27px;
 }
 
 .login h1 {
@@ -145,7 +264,7 @@ nav ul li {
     font-size: 16px;
     border: none;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: -50px;
     transition: 0.5s;
     text-align: center;
     text-decoration: none;
@@ -172,12 +291,13 @@ nav ul li {
 
 .form-control {
     position: relative;
-    margin: 20px 0 40px;
+    margin: 15px 0 30px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: -20px ;
 }
 
 .form-control input {
@@ -190,6 +310,7 @@ nav ul li {
     font-size: 18px;
     color: #000000;
     transition: 0.5s;
+    margin-top: -10px;
 }
 
 .form-control input:focus,
@@ -221,7 +342,7 @@ nav ul li {
     transform: translateY(-30px);
 }
 
-login-btn:hover{
+.login-btn:hover {
     background-color: #4aadc6;
     transition: 0.5s;
 }
@@ -251,6 +372,173 @@ login-btn:hover{
     height: 100vh;
     background-color: #f0f0f0;
     font-family: 'Montserrat', sans-serif;
+}
+
+#error-message{
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+}
+
+footer p{
+    margin-top: -28px;
+
+}
+
+/* Media queries améliorées */
+@media screen and (max-width: 1024px) {
+    .container {
+        width: 95%;
+        margin: 80px auto;
+    }
+
+    .admin-button {
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        padding: 10px 15px;
+    }
+
+    nav {
+        position: fixed;
+        top: var(--header-height);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background: var(--header-background);
+        transition: 0.3s;
+        flex-direction: column;
+    }
+
+    nav.active {
+        left: 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    nav ul li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .login {
+        padding: 5vh 5vw;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .login-btn {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .form-control input {
+        font-size: 16px;
+    }
+
+    #accueil {
+        padding: 30px 15px;
+    }
+
+    #accueil p {
+        font-size: 1.2rem;
+    }
+
+    .admin-button::after {
+        display: none;
+    }
+}
+
+/* Amélioration pour les appareils tactiles */
+@media (hover: none) {
+    nav a:hover::after {
+        width: 0;
+    }
+
+    .login-btn:active {
+        background-color: var(--accent-color);
+    }
+}
+
+/* Ajout des styles pour le menu hamburger */
+.hamburger {
+    display: none;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index: 1001;
+}
+
+.hamburger span {
+    display: block;
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 6px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Modification du menu mobile */
+@media screen and (max-width: 768px) {
+    .hamburger {
+        display: block;
+    }
+
+    /* Animation du hamburger */
+    .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    nav {
+        position: fixed;
+        top: var(--header-height);
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - var(--header-height));
+        background: var(--header-background);
+        transition: 0.3s ease-in-out;
+        flex-direction: column;
+        padding: 20px 0;
+    }
+
+    nav.active {
+        left: 0;
+    }
+
+    nav ul {
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+    }
+
+    nav ul li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
 }
 
 /* Fin connexion */

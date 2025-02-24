@@ -5,11 +5,9 @@ Application web pour gérer et suivre les heures de travail des employés.
  Table des Matières
 
 1. [Présentation](#présentation)
-2. [Fonctionnalit](#fonctionnalités)
+2. [Fonctionnalité](#fonctionnalités)
 3. [Utilisation](#utilisation)
 4. [Déploiement](#déploiement)
-5. [Contribution](#contribution)
-6. [Licence](#licence)
 
  Présentation
 
@@ -25,20 +23,13 @@ Cette application est conçue pour aider les entreprises à gérer efficacement 
 
  Utilisation
 
-1. Connexion : Les employés se connectent avec leur identifiant et mot de passe fournis par l'administrateur.
+1. Accueil et connexion : Les employés se connectent avec leur identifiant et mot de passe fournis par l'administrateur.
 2. Enregistrement des heures : Utiliser l'interface utilisateur pour enregistrer les heures de travail.
 3. Consultation des rapports : Les gestionnaires peuvent accéder aux rapports pour analyser les données.
+4. Aide : Les collaborateur peuvent interagir en cas de préoccupation
 
 
  Déploiement
 
 1. Prérequis : Html,Css et Javascript + Google sheets comme base de données
-2. Installation : Cloner le dépôt, installer les dépendances avec `npm install`, puis lancer l'application avec `npm start`.
-3. Configuration : Configurer les variables d'environnement pour la base de données et le serveur.
-
- Contribution
-
-Les contributions sont bienvenues ! Pour contribuer, veuillez suivre ces étapes :
-- Forker le dépôt.
-- Créer une branche pour vos modifications.
-- Soumettre une pull request avec une description claire des changements.
+2. lancer avec le live server

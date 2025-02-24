@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin | F2E-Heure</title>
+    <style>
+      :root {
+        --primary-color: #007bff;
+        --hover-color: #0056b3;
+        --error-color: #dc3545;
+        --success-color: #28a745;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f8f9fa;
+      }
+
+      .login-container {
+        width: 320px;
+        padding: 25px;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        background-color: white;
+      }
+
+      h1 {
+        margin: 0 0 25px;
+        font-size: 26px;
+        text-align: center;
+        color: #212529;
+      }
+
+      .form-control {
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        position: relative;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: 2px solid #dee2e6;
+        border-radius: 6px;
+        outline: none;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+      }
+
+      input:focus {
+        border-color: var(--primary-color);
+      }
+
+      .submit {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--primary-color);
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+      /* Header */
+      header {
+        background-color: #2697b3;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        height: 50px;
+      }
+
+      nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        margin-top: -75px;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.2rem;
+        margin: 0 10px;
+        transition: 0.5s;
+        margin-left: 75px;
+      }
+
+      #image-logo {
+        width: 60px;
+        height: 60px;
+        margin-right: 100%;
+      }
+
+      /* Fin header */
+      .submit:hover {
+        background-color: var(--hover-color);
+      }
+
+      .submit:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+      }
+
+      .toggle {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+      }
+
+      #error-message {
+        color: var(--error-color);
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .success-message {
+        color: var(--success-color);
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .loading::after {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid var(--primary-color);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Ajouter dans votre CSS */
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/acceuil.html">
+        <img src="/images/logo.jpg" id="image-logo" alt="Logo de F2E-Heure" />
+      </a>
+      <nav>
+        <ul>
+          <li><a href="/acceuil.html">Accueil</a></li>
+          <li><a href="/aide.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="admin-button-container">
+        <a href="/admin.html" class="admin-button">
+          <i class="fas fa-user-shield"></i>
+        </a>
+      </div>
+    </header>
+
+    <div class="login-container">
+      <h1>Administration</h1>
+      <form id="loginform">
+        <div class="form-control">
+          <label for="email" class="visually-hidden">Email</label>
+          <div class="input-group">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              required
+              aria-label="Email"
+              autocomplete="email"
+            />
+          </div>
+        </div>
+        <div class="form-control">
+          <div class="input-group">
+            <input
+              type="password"
+              id="password"
+              placeholder="Mot de passe"
+              required
+              aria-label="Mot de passe"
+              autocomplete="current-password"
+            />
+            <button
+              id="toggle"
+              type="button"
+              aria-label="Afficher/Masquer le mot de passe"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+        <button class="submit" type="submit">Connexion</button>
+        <div class="loading" id="loading"></div>
+        <div id="error-message"></div>
+      </form>
+    </div>
+
+    <script>
+      const loginform = document.getElementById("loginform");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const toggle = document.getElementById("toggle");
+      const errorMessage = document.getElementById("error-message");
+      const loading = document.getElementById("loading");
+      const submitButton = document.querySelector(".submit");
+
+      const handleFetchError = (error) => {
+        loading.style.display = "none";
+        submitButton.disabled = false;
+        errorMessage.innerHTML = "Erreur de connexion. Veuillez réessayer.";
+        console.error("Erreur:", error);
+      };
+
+      // Soumettre le formulaire
+
+      loginform.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        if (checkLockout()) {
+          return;
+        }
+
+        errorMessage.innerHTML = "";
+        loading.style.display = "block";
+        submitButton.disabled = true;
+
+        const data = {
+          email: email.value.trim(),
+          password: password.value,
+        };
+
+        fetch(
+          "https://script.google.com/macros/s/AKfycbxKRYzZuR2r8kefjd8Yt4gmb4tcxxMTCULPpVB3S4cQ-ogvh8f4HjxGtC2qMIbtFSjvdQ/exec",
+          {
+            method: "POST",
+            mode: "no-cors",
+            cache: "no-cache",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }
+        )
+          .then((response) => {
+            if (response.type === "opaque") {
+              window.location.href = "/suivi.html";
+              return;
+            }
+            return response.json();
+          })
+          .catch((error) => {
+            console.error("Erreur:", error);
+            handleFetchError(error);
+          });
+      });
+
+      // Afficher ou masquer le mot de passe
+      toggle.addEventListener("click", function () {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        toggle.textContent = type === "password" ? "👁️" : "🙈";
+      });
+
+      // Protection contre les attaques par force brute
+      let attemptCount = 0;
+      const maxAttempts = 5;
+      const lockoutDuration = 15 * 1000; // 15 secondes
+
+      function checkLockout() {
+        const lockoutTime = localStorage.getItem("loginLockout");
+
+        if (lockoutTime && Date.now() < parseInt(lockoutTime)) {
+          const remainingSeconds = Math.ceil(
+            (parseInt(lockoutTime) - Date.now()) / 1000
+          );
+          const minutes = Math.floor(remainingSeconds / 60);
+          const seconds = remainingSeconds % 60;
+
+          errorMessage.innerHTML = `Compte temporairement bloqué. Réessayez dans ${minutes}m ${seconds}s.`;
+          submitButton.disabled = true;
+          return true;
+        } else if (lockoutTime && Date.now() >= parseInt(lockoutTime)) {
+          // Réinitialiser après la période de lockout
+          localStorage.removeItem("loginLockout");
+          localStorage.removeItem("loginAttempts");
+          submitButton.disabled = false;
+        }
+        return false;
+      }
+
+      (() => {
+        checkLockout();
+
+        // Nettoyer localStorage si nécessaire
+        window.addEventListener("beforeunload", () => {
+          const lockoutTime = localStorage.getItem("loginLockout");
+          if (lockoutTime && Date.now() >= parseInt(lockoutTime)) {
+            localStorage.removeItem("loginLockout");
+            localStorage.removeItem("loginAttempts");
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
